@@ -14,7 +14,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -26,6 +26,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//Allow angular application to make request by 
+app.UseCors(X => X.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200","https://localhost:4200","http://localhost:53688/","https://localhost:53688/"));
 
 app.UseAuthorization();
 
